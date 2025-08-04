@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Post } from "@nestjs/common";
-import { GetExerciseByDayUseCase } from "src/use-cases/exercise/get-exercise-by-day.use-case";
+import { GetExerciseByDayUseCase } from "../use-cases/exercise/get-exercise-by-day.use-case";
 import { CreateWorkoutPlanDto, WorkoutPlanResponseDto } from "../core/dtos";
 import { BodyDto } from "../frameworks/auth/decorators/body-dto.decorator";
 import {

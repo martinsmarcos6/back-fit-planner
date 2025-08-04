@@ -1,5 +1,17 @@
 import { Controller, Post, Put, Get, Delete, Param } from "@nestjs/common";
 import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiBearerAuth,
+  ApiParam,
+  ApiBadRequestResponse,
+  ApiNotFoundResponse,
+  ApiUnauthorizedResponse,
+  ApiForbiddenResponse,
+} from "@nestjs/swagger";
+import {
   CreateExerciseRecordDto,
   UpdateExerciseRecordDto,
   ExerciseRecordResponseDto,
@@ -16,6 +28,8 @@ import { GetExerciseProgressUseCase } from "../use-cases/metrics/get-exercise-pr
 import { GetUserProgressSummaryUseCase } from "../use-cases/metrics/get-user-progress-summary.use-case";
 import { DeleteExerciseRecordUseCase } from "../use-cases/metrics/delete-exercise-record.use-case";
 
+@ApiTags("metrics")
+@ApiBearerAuth("JWT-auth")
 @Controller("metrics")
 export class MetricsController {
   constructor(
@@ -29,6 +43,19 @@ export class MetricsController {
   // ==================== REGISTROS DE PESO ====================
 
   @Post("records")
+  @ApiOperation({
+    summary: "Registrar peso de exercício",
+    description: "Cria um novo registro de peso para um exercício específico",
+  })
+  @ApiBody({ type: CreateExerciseRecordDto })
+  @ApiResponse({
+    status: 201,
+    description: "Registro criado com sucesso",
+    type: ExerciseRecordResponseDto,
+  })
+  @ApiBadRequestResponse({ description: "Dados de entrada inválidos" })
+  @ApiNotFoundResponse({ description: "Exercício não encontrado" })
+  @ApiUnauthorizedResponse({ description: "Token de autenticação inválido" })
   async createExerciseRecord(
     @CurrentUser() currentUser: CurrentUserPayload,
     @BodyDto(CreateExerciseRecordDto) createRecordDto: CreateExerciseRecordDto,
@@ -59,6 +86,26 @@ export class MetricsController {
   }
 
   @Put("records/:recordId")
+  @ApiOperation({
+    summary: "Atualizar registro de peso",
+    description: "Atualiza um registro de peso existente",
+  })
+  @ApiParam({
+    name: "recordId",
+    description: "ID do registro a ser atualizado",
+  })
+  @ApiBody({ type: UpdateExerciseRecordDto })
+  @ApiResponse({
+    status: 200,
+    description: "Registro atualizado com sucesso",
+    type: ExerciseRecordResponseDto,
+  })
+  @ApiBadRequestResponse({ description: "Dados de entrada inválidos" })
+  @ApiNotFoundResponse({ description: "Registro não encontrado" })
+  @ApiForbiddenResponse({
+    description: "Sem permissão para atualizar este registro",
+  })
+  @ApiUnauthorizedResponse({ description: "Token de autenticação inválido" })
   async updateExerciseRecord(
     @CurrentUser() currentUser: CurrentUserPayload,
     @Param("recordId") recordId: string,
@@ -90,6 +137,26 @@ export class MetricsController {
   }
 
   @Delete("records/:recordId")
+  @ApiOperation({
+    summary: "Deletar registro de peso",
+    description: "Remove um registro de peso existente",
+  })
+  @ApiParam({ name: "recordId", description: "ID do registro a ser deletado" })
+  @ApiResponse({
+    status: 200,
+    description: "Registro deletado com sucesso",
+    schema: {
+      type: "object",
+      properties: {
+        message: { type: "string", example: "Registro deletado com sucesso" },
+      },
+    },
+  })
+  @ApiNotFoundResponse({ description: "Registro não encontrado" })
+  @ApiForbiddenResponse({
+    description: "Sem permissão para deletar este registro",
+  })
+  @ApiUnauthorizedResponse({ description: "Token de autenticação inválido" })
   async deleteExerciseRecord(
     @CurrentUser() currentUser: CurrentUserPayload,
     @Param("recordId") recordId: string,
@@ -104,6 +171,18 @@ export class MetricsController {
   // ==================== PROGRESSÃO E HISTÓRICO ====================
 
   @Get("exercises/:exerciseId/progress")
+  @ApiOperation({
+    summary: "Obter progressão de exercício",
+    description:
+      "Retorna o histórico completo de progresso de um exercício específico",
+  })
+  @ApiParam({ name: "exerciseId", description: "ID do exercício" })
+  @ApiResponse({
+    status: 200,
+    description: "Progressão encontrada com sucesso",
+    type: ExerciseProgressResponseDto,
+  })
+  @ApiUnauthorizedResponse({ description: "Token de autenticação inválido" })
   async getExerciseProgress(
     @CurrentUser() currentUser: CurrentUserPayload,
     @Param("exerciseId") exerciseId: string,
@@ -115,6 +194,29 @@ export class MetricsController {
   }
 
   @Get("summary")
+  @ApiOperation({
+    summary: "Obter resumo de progresso",
+    description:
+      "Retorna um resumo do progresso do usuário em todos os exercícios",
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Resumo encontrado com sucesso",
+    schema: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          exerciseId: { type: "string" },
+          exerciseName: { type: "string" },
+          latestWeight: { type: "number" },
+          latestDate: { type: "string", format: "date-time" },
+          recordCount: { type: "number" },
+        },
+      },
+    },
+  })
+  @ApiUnauthorizedResponse({ description: "Token de autenticação inválido" })
   async getUserProgressSummary(
     @CurrentUser() currentUser: CurrentUserPayload,
   ): Promise<
