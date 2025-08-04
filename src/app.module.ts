@@ -37,6 +37,7 @@ import { GetWorkoutPlanUseCase } from "./use-cases/workout-plan/get-workout-plan
 import { CreateWorkoutDayUseCase } from "./use-cases/workout-day/create-workout-day.use-case";
 import { CreateExerciseUseCase } from "./use-cases/exercise/create-exercise.use-case";
 import { GetWorkoutDayUseCase } from "./use-cases/workout-day/get-workout-day.use-case";
+import { GetExerciseByDayUseCase } from "./use-cases/exercise/get-exercise-by-day.use-case";
 
 @Module({
   imports: [
@@ -74,6 +75,7 @@ import { GetWorkoutDayUseCase } from "./use-cases/workout-day/get-workout-day.us
     CreateWorkoutDayUseCase,
     CreateExerciseUseCase,
     GetWorkoutDayUseCase,
+    GetExerciseByDayUseCase,
     UserRepository,
     ProfileRepository,
     WorkoutPlanRepository,

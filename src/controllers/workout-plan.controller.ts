@@ -8,6 +8,7 @@ import { BodyDto } from "../frameworks/auth/decorators/body-dto.decorator";
 import { CreateWorkoutPlanUseCase } from "../use-cases/workout-plan/create-workout-plan.use-case";
 import { GetWorkoutPlanUseCase } from "../use-cases/workout-plan/get-workout-plan.use-case";
 import { GetWorkoutDayUseCase } from "../use-cases/workout-day/get-workout-day.use-case";
+import { GetExerciseByDayUseCase } from "src/use-cases/exercise/get-exercise-by-day.use-case";
 
 @Controller("workout-plans")
 export class WorkoutPlanController {
@@ -15,6 +16,7 @@ export class WorkoutPlanController {
     private readonly createWorkoutPlanUseCase: CreateWorkoutPlanUseCase,
     private readonly getWorkoutPlanUseCase: GetWorkoutPlanUseCase,
     private readonly getWorkoutDayUseCase: GetWorkoutDayUseCase,
+    private readonly getExerciseByDayUseCase: GetExerciseByDayUseCase,
   ) {}
 
   @Post()
@@ -69,6 +71,15 @@ export class WorkoutPlanController {
 
     const days = await this.getWorkoutDayUseCase.executeByPlanId(plan.id);
 
+    const daysWithExercises = await Promise.all(
+      days.map(async (day) => ({
+        ...day,
+        exercises: await this.getExerciseByDayUseCase.executeByWorkoutDayId(
+          day.id,
+        ),
+      })),
+    );
+
     return {
       id: plan.id,
       name: plan.name,
@@ -77,7 +88,7 @@ export class WorkoutPlanController {
       userId: plan.userId,
       createdAt: plan.createdAt,
       updatedAt: plan.updatedAt,
-      days: days.map((day) => ({
+      days: daysWithExercises.map((day) => ({
         id: day.id,
         dayOfWeek: day.dayOfWeek,
         workoutName: day.workoutName,
@@ -85,6 +96,7 @@ export class WorkoutPlanController {
         description: day.description ?? undefined,
         createdAt: day.createdAt,
         updatedAt: day.updatedAt,
+        exercises: day.exercises,
       })),
     };
   }
