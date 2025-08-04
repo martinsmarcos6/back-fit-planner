@@ -14,6 +14,7 @@ Este projeto segue os princípios da **Clean Architecture**, organizando o códi
 ## 🎯 Funcionalidades
 
 ### 🔐 Autenticação
+
 - [x] Estrutura base
 - [x] Criar conta de usuário
 - [x] Login na conta
@@ -23,13 +24,15 @@ Este projeto segue os princípios da **Clean Architecture**, organizando o códi
 - [ ] Recuperação de senha (esqueci senha)
 
 ### 👤 Perfil
-- [ ] Obter perfil do usuário logado
-- [ ] Obter perfil por ID
-- [ ] Buscar perfis por username/nome
-- [ ] Atualizar informações do perfil
+
+- [x] Obter perfil do usuário logado
+- [x] Obter perfil por ID
+- [x] Buscar perfis por username/nome
+- [x] Atualizar informações do perfil
 - [ ] Upload de foto de perfil
 
 ### 🏋️ Treinos
+
 - [ ] Listar treinos do usuário
 - [ ] Obter treinos por ID do usuário
 - [ ] Listar todos os treinos (feed público)
@@ -44,26 +47,29 @@ Este projeto segue os princípios da **Clean Architecture**, organizando o códi
 - **Framework**: NestJS
 - **Linguagem**: TypeScript
 - **Banco de Dados**: PostgreSQL ✅
-- **ORM**: Prisma ✅  
+- **ORM**: Prisma ✅
 - **Autenticação**: JWT
-- **Validação**: class-validator
+- **Validação**: class-validator ✅
 - **Documentação**: Swagger
 - **Testes**: Jest
-- **Linting**: ESLint + Biome
+- **Linting**: ESLint + Biome ✅
 
 ## 🚀 Como Executar
 
 ### Pré-requisitos
+
 - Node.js 18+
 - pnpm
 
 ### Instalação
+
 ```bash
 # Instalar dependências
 pnpm install
 ```
 
 ### Executar em Desenvolvimento
+
 ```bash
 # Modo desenvolvimento
 pnpm run start:dev
@@ -76,6 +82,7 @@ pnpm run start:prod
 ```
 
 ### Testes
+
 ```bash
 # Testes unitários
 pnpm run test
@@ -104,35 +111,41 @@ src/
 ## 🗓️ Roadmap de Desenvolvimento
 
 ### Sprint 1 - Fundação (Semana 1-2) ✅ CONCLUÍDA
+
 - [x] Configurar banco de dados PostgreSQL
 - [x] Implementar entidades User e Profile
 - [x] Sistema básico de autenticação (registro/login)
 - [x] Middleware de validação JWT
 
-### Sprint 2 - Perfil de Usuário (Semana 3)
-- [ ] CRUD completo de perfis
-- [ ] Busca por usuários
-- [ ] Validações de dados do perfil
+### Sprint 2 - Perfil de Usuário (Semana 3) ✅ CONCLUÍDA
+
+- [x] CRUD completo de perfis
+- [x] Busca por usuários
+- [x] Validações de dados do perfil
 
 ### Sprint 3 - Treinos Básicos (Semana 4-5)
+
 - [ ] Entidade Workout (Treino)
 - [ ] CRUD de treinos
 - [ ] Associação treino-usuário
 - [ ] Sistema de exercícios
 
 ### Sprint 4 - Funcionalidades Sociais (Semana 6)
+
 - [ ] Sistema de curtidas
 - [ ] Salvar treinos favoritos
 - [ ] Feed público de treinos
 - [ ] Sistema de seguir usuários
 
 ### Sprint 5 - Métricas e Analytics (Semana 7)
+
 - [ ] Registro de pesos por exercício
 - [ ] Histórico de progressão
 - [ ] Estatísticas do usuário
 - [ ] Gráficos de evolução
 
 ### Sprint 6 - Polimento (Semana 8)
+
 - [ ] Documentação Swagger completa
 - [ ] Testes de integração
 - [ ] Otimizações de performance
@@ -141,28 +154,34 @@ src/
 ## 📋 Próximos Passos
 
 1. ~~**Configurar Banco de Dados**: Adicionar PostgreSQL e Prisma~~ ✅ **CONCLUÍDO**
-2. ~~**Implementar Autenticação**: JWT, bcrypt, guards~~ ✅ **CONCLUÍDO**  
+2. ~~**Implementar Autenticação**: JWT, bcrypt, guards~~ ✅ **CONCLUÍDO**
 3. ~~**Criar Entidades**: User, Profile~~, Workout, Exercise ✅ **User/Profile CONCLUÍDOS**
 4. ~~**Desenvolver Use Cases**: Seguindo princípios da Clean Architecture~~ ✅ **CONCLUÍDO**
-5. **Documentar API**: Swagger/OpenAPI
-6. **Escrever Testes**: Cobertura mínima de 80%
+5. ~~**Implementar CRUD de Perfis**: Get, Update, Search~~ ✅ **CONCLUÍDO**
+6. **Documentar API**: Swagger/OpenAPI
+7. **Escrever Testes**: Cobertura mínima de 80%
 
-### 🎯 **SPRINT 1 CONCLUÍDA COM SUCESSO!**
+### 🎯 **SPRINT 1 & 2 CONCLUÍDAS COM SUCESSO!**
 
 ✅ **O que está funcionando:**
+
 - Banco PostgreSQL com Docker
 - Autenticação completa (registro/login)
 - JWT tokens e guards
 - Entidades User e Profile
 - Clean Architecture implementada
-- Validações com class-validator
+- Validações com class-validator + decorator customizado @BodyDto
+- **CRUD completo de perfis** (GET, PUT /profile/me)
+- **Busca de usuários** (GET /profile/search)
+- **Perfil por ID/username** (GET /profile/:identifier)
 
 ### 🚀 **Como testar:**
+
 ```bash
 # Iniciar banco
 pnpm docker:up
 
-# Rodar migrations  
+# Rodar migrations
 pnpm db:migrate
 
 # Iniciar servidor
@@ -171,6 +190,10 @@ pnpm start:dev
 # Testar endpoints
 POST /auth/register
 POST /auth/login
+GET /profile/me
+PUT /profile/me
+GET /profile/search?q=nome
+GET /profile/:identifier
 ```
 
 ## 🤝 Contribuindo

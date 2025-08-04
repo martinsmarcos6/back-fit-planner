@@ -19,10 +19,7 @@ export class User {
     this.updatedAt = props.updatedAt ?? new Date();
   }
 
-  static create(props: {
-    email: string;
-    password: string;
-  }): User {
+  static create(props: { email: string; password: string }): User {
     return new User(props);
   }
 

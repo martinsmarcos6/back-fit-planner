@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { Profile } from '../../../core/entities';
-import { PrismaService } from '../prisma.service';
+import { Injectable } from "@nestjs/common";
+import { Profile } from "../../../core/entities";
+import { PrismaService } from "../prisma.service";
 
 @Injectable()
 export class ProfileRepository {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async findByUserId(userId: string): Promise<Profile | null> {
     const profile = await this.prisma.profile.findUnique({
@@ -66,6 +66,67 @@ export class ProfileRepository {
       createdAt: createdProfile.createdAt,
       updatedAt: createdProfile.updatedAt,
     });
+  }
+
+  async findById(id: string): Promise<Profile | null> {
+    const profile = await this.prisma.profile.findUnique({
+      where: { id },
+    });
+
+    if (!profile) return null;
+
+    return new Profile({
+      id: profile.id,
+      username: profile.username,
+      name: profile.name,
+      bio: profile.bio ?? undefined,
+      avatar: profile.avatar ?? undefined,
+      userId: profile.userId,
+      createdAt: profile.createdAt,
+      updatedAt: profile.updatedAt,
+    });
+  }
+
+  async searchByNameOrUsername(
+    query: string,
+    limit: number = 10,
+  ): Promise<Profile[]> {
+    const profiles = await this.prisma.profile.findMany({
+      where: {
+        OR: [
+          {
+            username: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+          {
+            name: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
+      take: limit,
+      orderBy: {
+        username: "asc",
+      },
+    });
+
+    return profiles.map(
+      (profile) =>
+        new Profile({
+          id: profile.id,
+          username: profile.username,
+          name: profile.name,
+          bio: profile.bio ?? undefined,
+          avatar: profile.avatar ?? undefined,
+          userId: profile.userId,
+          createdAt: profile.createdAt,
+          updatedAt: profile.updatedAt,
+        }),
+    );
   }
 
   async update(id: string, profileData: Partial<Profile>): Promise<Profile> {

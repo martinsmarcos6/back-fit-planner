@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { RegisterDto, LoginDto, AuthResponseDto } from '../core/dtos';
-import { RegisterUseCase } from '../use-cases/auth/register.use-case';
-import { LoginUseCase } from '../use-cases/auth/login.use-case';
+import { Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { AuthResponseDto, LoginDto, RegisterDto } from "../core/dtos";
+import { LoginUseCase } from "../use-cases/auth/login.use-case";
+import { RegisterUseCase } from "../use-cases/auth/register.use-case";
 
 @Injectable()
 export class AuthService {
@@ -10,7 +10,7 @@ export class AuthService {
     private readonly registerUseCase: RegisterUseCase,
     private readonly loginUseCase: LoginUseCase,
     private readonly jwtService: JwtService,
-  ) { }
+  ) {}
 
   async register(registerDto: RegisterDto): Promise<AuthResponseDto> {
     const { user, profile } = await this.registerUseCase.execute(registerDto);

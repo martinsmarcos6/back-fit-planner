@@ -1,28 +1,34 @@
-import { Injectable, ConflictException } from '@nestjs/common';
-import * as bcrypt from 'bcryptjs';
-import { User, Profile } from '../../core/entities';
-import { RegisterDto } from '../../core/dtos';
-import { UserRepository } from '../../frameworks/database/repositories/user.repository';
-import { ProfileRepository } from '../../frameworks/database/repositories/profile.repository';
+import { ConflictException, Injectable } from "@nestjs/common";
+import * as bcrypt from "bcryptjs";
+import { RegisterDto } from "../../core/dtos";
+import { Profile, User } from "../../core/entities";
+import { ProfileRepository } from "../../frameworks/database/repositories/profile.repository";
+import { UserRepository } from "../../frameworks/database/repositories/user.repository";
 
 @Injectable()
 export class RegisterUseCase {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly profileRepository: ProfileRepository,
-  ) { }
+  ) {}
 
-  async execute(registerDto: RegisterDto): Promise<{ user: User; profile: Profile }> {
+  async execute(
+    registerDto: RegisterDto,
+  ): Promise<{ user: User; profile: Profile }> {
     // Verificar se email já existe
-    const existingUser = await this.userRepository.findByEmail(registerDto.email);
+    const existingUser = await this.userRepository.findByEmail(
+      registerDto.email,
+    );
     if (existingUser) {
-      throw new ConflictException('Email já está em uso');
+      throw new ConflictException("Email já está em uso");
     }
 
     // Verificar se username já existe
-    const existingProfile = await this.profileRepository.findByUsername(registerDto.username);
+    const existingProfile = await this.profileRepository.findByUsername(
+      registerDto.username,
+    );
     if (existingProfile) {
-      throw new ConflictException('Username já está em uso');
+      throw new ConflictException("Username já está em uso");
     }
 
     // Hash da senha
