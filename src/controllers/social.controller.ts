@@ -1,5 +1,16 @@
 import { Controller, Delete, Get, Param, Post, Query } from "@nestjs/common";
 import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiParam,
+  ApiQuery,
+  ApiBadRequestResponse,
+  ApiNotFoundResponse,
+  ApiUnauthorizedResponse,
+} from "@nestjs/swagger";
+import {
   FavoriteResponseDto,
   FollowResponseDto,
   LikeResponseDto,
@@ -21,6 +32,8 @@ import { UnfavoriteWorkoutPlanUseCase } from "../use-cases/social/unfavorite-wor
 import { UnfollowUserUseCase } from "../use-cases/social/unfollow-user.use-case";
 import { UnlikeWorkoutPlanUseCase } from "../use-cases/social/unlike-workout-plan.use-case";
 
+@ApiTags("social")
+@ApiBearerAuth("JWT-auth")
 @Controller("social")
 export class SocialController {
   constructor(
@@ -40,6 +53,23 @@ export class SocialController {
   // ==================== CURTIDAS ====================
 
   @Post("workout-plans/:planId/like")
+  @ApiOperation({
+    summary: "Curtir plano de treino",
+    description: "Adiciona uma curtida a um plano de treino específico",
+  })
+  @ApiParam({
+    name: "planId",
+    description: "ID do plano de treino",
+    type: String,
+  })
+  @ApiResponse({
+    status: 201,
+    description: "Plano curtido com sucesso",
+    type: LikeResponseDto,
+  })
+  @ApiBadRequestResponse({ description: "Não é possível curtir próprio plano" })
+  @ApiNotFoundResponse({ description: "Plano de treino não encontrado" })
+  @ApiUnauthorizedResponse({ description: "Token de acesso inválido" })
   async likeWorkoutPlan(
     @CurrentUser() currentUser: CurrentUserPayload,
     @Param("planId") planId: string,
@@ -58,6 +88,21 @@ export class SocialController {
   }
 
   @Delete("workout-plans/:planId/like")
+  @ApiOperation({
+    summary: "Descurtir plano de treino",
+    description: "Remove a curtida de um plano de treino",
+  })
+  @ApiParam({
+    name: "planId",
+    description: "ID do plano de treino",
+    type: String,
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Curtida removida com sucesso",
+  })
+  @ApiNotFoundResponse({ description: "Curtida não encontrada" })
+  @ApiUnauthorizedResponse({ description: "Token de acesso inválido" })
   async unlikeWorkoutPlan(
     @CurrentUser() currentUser: CurrentUserPayload,
     @Param("planId") planId: string,
@@ -174,6 +219,27 @@ export class SocialController {
   // ==================== FEED PÚBLICO ====================
 
   @Get("feed")
+  @ApiOperation({
+    summary: "Obter feed público",
+    description: "Retorna uma lista paginada de planos de treino públicos",
+  })
+  @ApiQuery({
+    name: "page",
+    required: false,
+    description: "Número da página (padrão: 1)",
+    type: Number,
+  })
+  @ApiQuery({
+    name: "limit",
+    required: false,
+    description: "Itens por página (padrão: 10)",
+    type: Number,
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Feed público retornado com sucesso",
+  })
+  @ApiUnauthorizedResponse({ description: "Token de acesso inválido" })
   async getPublicFeed(
     @CurrentUser() currentUser: CurrentUserPayload,
     @Query("page") page: string = "1",
@@ -192,6 +258,22 @@ export class SocialController {
   // ==================== ESTATÍSTICAS SOCIAIS ====================
 
   @Get("stats/:userId")
+  @ApiOperation({
+    summary: "Obter estatísticas sociais do usuário",
+    description: "Retorna as estatísticas sociais de um usuário específico",
+  })
+  @ApiParam({
+    name: "userId",
+    description: "ID do usuário",
+    type: String,
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Estatísticas retornadas com sucesso",
+    type: SocialStatsDto,
+  })
+  @ApiNotFoundResponse({ description: "Usuário não encontrado" })
+  @ApiUnauthorizedResponse({ description: "Token de acesso inválido" })
   async getSocialStats(
     @Param("userId") userId: string,
   ): Promise<SocialStatsDto> {
@@ -199,6 +281,16 @@ export class SocialController {
   }
 
   @Get("stats")
+  @ApiOperation({
+    summary: "Obter minhas estatísticas sociais",
+    description: "Retorna as estatísticas sociais do usuário autenticado",
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Estatísticas retornadas com sucesso",
+    type: SocialStatsDto,
+  })
+  @ApiUnauthorizedResponse({ description: "Token de acesso inválido" })
   async getCurrentUserSocialStats(
     @CurrentUser() currentUser: CurrentUserPayload,
   ): Promise<SocialStatsDto> {

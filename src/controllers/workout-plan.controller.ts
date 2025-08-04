@@ -1,4 +1,15 @@
 import { Controller, Get, Param, Post } from "@nestjs/common";
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiBearerAuth,
+  ApiParam,
+  ApiBadRequestResponse,
+  ApiNotFoundResponse,
+  ApiUnauthorizedResponse,
+} from "@nestjs/swagger";
 import { GetExerciseByDayUseCase } from "../use-cases/exercise/get-exercise-by-day.use-case";
 import { CreateWorkoutPlanDto, WorkoutPlanResponseDto } from "../core/dtos";
 import { BodyDto } from "../frameworks/auth/decorators/body-dto.decorator";
@@ -10,6 +21,8 @@ import { GetWorkoutDayUseCase } from "../use-cases/workout-day/get-workout-day.u
 import { CreateWorkoutPlanUseCase } from "../use-cases/workout-plan/create-workout-plan.use-case";
 import { GetWorkoutPlanUseCase } from "../use-cases/workout-plan/get-workout-plan.use-case";
 
+@ApiTags("workout-plans")
+@ApiBearerAuth("JWT-auth")
 @Controller("workout-plans")
 export class WorkoutPlanController {
   constructor(
@@ -20,6 +33,18 @@ export class WorkoutPlanController {
   ) {}
 
   @Post()
+  @ApiOperation({
+    summary: "Criar plano de treino",
+    description: "Cria um novo plano de treino para o usuário autenticado",
+  })
+  @ApiBody({ type: CreateWorkoutPlanDto })
+  @ApiResponse({
+    status: 201,
+    description: "Plano de treino criado com sucesso",
+    type: WorkoutPlanResponseDto,
+  })
+  @ApiBadRequestResponse({ description: "Dados de entrada inválidos" })
+  @ApiUnauthorizedResponse({ description: "Token de acesso inválido" })
   async createPlan(
     @CurrentUser() currentUser: CurrentUserPayload,
     @BodyDto(CreateWorkoutPlanDto) createPlanDto: CreateWorkoutPlanDto,
@@ -41,6 +66,16 @@ export class WorkoutPlanController {
   }
 
   @Get("me")
+  @ApiOperation({
+    summary: "Listar meus planos de treino",
+    description: "Retorna todos os planos de treino do usuário autenticado",
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Lista de planos de treino retornada com sucesso",
+    type: [WorkoutPlanResponseDto],
+  })
+  @ApiUnauthorizedResponse({ description: "Token de acesso inválido" })
   async getMyPlans(
     @CurrentUser() currentUser: CurrentUserPayload,
   ): Promise<WorkoutPlanResponseDto[]> {
@@ -60,6 +95,23 @@ export class WorkoutPlanController {
   }
 
   @Get(":id")
+  @ApiOperation({
+    summary: "Obter plano de treino por ID",
+    description:
+      "Retorna um plano de treino específico com seus dias e exercícios",
+  })
+  @ApiParam({
+    name: "id",
+    description: "ID do plano de treino",
+    type: String,
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Plano de treino retornado com sucesso",
+    type: WorkoutPlanResponseDto,
+  })
+  @ApiNotFoundResponse({ description: "Plano de treino não encontrado" })
+  @ApiUnauthorizedResponse({ description: "Token de acesso inválido" })
   async getPlanById(
     @CurrentUser() currentUser: CurrentUserPayload,
     @Param("id") id: string,
