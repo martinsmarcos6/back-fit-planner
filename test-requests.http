@@ -60,6 +60,123 @@ GET http://localhost:3000/profile/search?q=usuario&limit=5
 Authorization: Bearer SEU_TOKEN_AQUI
 
 ### ========================================
+### ENDPOINTS DE PLANOS DE TREINO (REQUER AUTENTICAÇÃO)
+### ========================================
+
+### 8. Criar novo plano de treino (ex: "ABC")
+POST http://localhost:3000/workout-plans
+Authorization: Bearer SEU_TOKEN_AQUI
+Content-Type: application/json
+
+{
+  "name": "ABC",
+  "description": "Plano de treino dividido em 3 dias",
+  "isPublic": true
+}
+
+### 9. Obter meus planos de treino
+GET http://localhost:3000/workout-plans/me
+Authorization: Bearer SEU_TOKEN_AQUI
+
+### 10. Obter planos públicos
+GET http://localhost:3000/workout-plans/public?limit=10
+
+### 11. Buscar planos de treino
+GET http://localhost:3000/workout-plans/search?q=ABC&limit=5&publicOnly=true
+
+### 12. Obter plano específico por ID
+GET http://localhost:3000/workout-plans/ID_DO_PLANO
+Authorization: Bearer SEU_TOKEN_AQUI
+
+### 13. Atualizar plano de treino
+PUT http://localhost:3000/workout-plans/ID_DO_PLANO
+Authorization: Bearer SEU_TOKEN_AQUI
+Content-Type: application/json
+
+{
+  "name": "ABC Atualizado",
+  "description": "Descrição atualizada do plano",
+  "isPublic": false
+}
+
+### 14. Deletar plano de treino
+DELETE http://localhost:3000/workout-plans/ID_DO_PLANO
+Authorization: Bearer SEU_TOKEN_AQUI
+
+### ========================================
+### ENDPOINTS DE DIAS DE TREINO (REQUER AUTENTICAÇÃO)
+### ========================================
+
+### 15. Adicionar dia ao plano (ex: Segunda = "A")
+POST http://localhost:3000/workout-plans/ID_DO_PLANO/days
+Authorization: Bearer SEU_TOKEN_AQUI
+Content-Type: application/json
+
+{
+  "dayOfWeek": "monday",
+  "workoutName": "A",
+  "description": "Treino A - Peito, Ombro e Tríceps"
+}
+
+### 16. Obter dias do plano
+GET http://localhost:3000/workout-plans/ID_DO_PLANO/days
+Authorization: Bearer SEU_TOKEN_AQUI
+
+### 17. Atualizar dia do treino
+PUT http://localhost:3000/workout-days/ID_DO_DIA
+Authorization: Bearer SEU_TOKEN_AQUI
+Content-Type: application/json
+
+{
+  "workoutName": "A1",
+  "description": "Treino A modificado"
+}
+
+### 18. Deletar dia do treino
+DELETE http://localhost:3000/workout-days/ID_DO_DIA
+Authorization: Bearer SEU_TOKEN_AQUI
+
+### ========================================
+### ENDPOINTS DE EXERCÍCIOS (REQUER AUTENTICAÇÃO)
+### ========================================
+
+### 19. Adicionar exercício ao dia de treino
+POST http://localhost:3000/workout-days/ID_DO_DIA/exercises
+Authorization: Bearer SEU_TOKEN_AQUI
+Content-Type: application/json
+
+{
+  "name": "Supino Reto",
+  "sets": 3,
+  "repsRange": "8-12",
+  "weight": 80,
+  "restSeconds": 90,
+  "order": 1,
+  "notes": "Foco na técnica"
+}
+
+### 20. Obter exercícios do dia
+GET http://localhost:3000/workout-days/ID_DO_DIA/exercises
+Authorization: Bearer SEU_TOKEN_AQUI
+
+### 21. Atualizar exercício
+PUT http://localhost:3000/exercises/ID_DO_EXERCICIO
+Authorization: Bearer SEU_TOKEN_AQUI
+Content-Type: application/json
+
+{
+  "name": "Supino Inclinado",
+  "sets": 4,
+  "repsRange": "10-15",
+  "weight": 70,
+  "notes": "Banco a 30 graus"
+}
+
+### 22. Deletar exercício
+DELETE http://localhost:3000/exercises/ID_DO_EXERCICIO
+Authorization: Bearer SEU_TOKEN_AQUI
+
+### ========================================
 ### COMANDOS CURL ALTERNATIVOS
 ### ========================================
 
@@ -82,3 +199,19 @@ Authorization: Bearer SEU_TOKEN_AQUI
 #   -H "Authorization: Bearer SEU_TOKEN_AQUI" \
 #   -H "Content-Type: application/json" \
 #   -d '{"name":"Novo Nome","bio":"Nova bio"}'
+
+### Criar plano de treino via curl:
+# curl -X POST http://localhost:3000/workout-plans \
+#   -H "Authorization: Bearer SEU_TOKEN_AQUI" \
+#   -H "Content-Type: application/json" \
+#   -d '{"name":"ABC","description":"Plano de treino ABC","isPublic":true}'
+
+### Obter meus planos via curl:
+# curl -X GET http://localhost:3000/workout-plans/me \
+#   -H "Authorization: Bearer SEU_TOKEN_AQUI"
+
+### Adicionar dia ao plano via curl:
+# curl -X POST http://localhost:3000/workout-plans/ID_DO_PLANO/days \
+#   -H "Authorization: Bearer SEU_TOKEN_AQUI" \
+#   -H "Content-Type: application/json" \
+#   -d '{"dayOfWeek":"monday","workoutName":"A","description":"Treino A"}'
