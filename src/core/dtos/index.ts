@@ -1,5 +1,6 @@
 export * from "./auth.dto";
 export * from "./exercise.dto";
+export * from "./metrics.dto";
 export * from "./profile.dto";
 export * from "./social.dto";
 export * from "./workout-day.dto";

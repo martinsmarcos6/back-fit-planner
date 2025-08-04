@@ -26,6 +26,9 @@ model User {
   following Follow[]   @relation("UserFollowing")
   followers Follow[]   @relation("UserFollowers")
 
+  // Relacionamentos de métricas
+  exerciseRecords ExerciseRecord[]
+
   // Campos de auditoria
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -114,6 +117,9 @@ model Exercise {
   workoutDayId String
   workoutDay   WorkoutDay @relation(fields: [workoutDayId], references: [id], onDelete: Cascade)
 
+  // Relacionamentos de métricas
+  exerciseRecords ExerciseRecord[]
+
   // Campos de auditoria
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -179,4 +185,27 @@ model Follow {
   // Um usuário pode seguir outro apenas uma vez
   @@unique([followerId, followingId])
   @@map("follows")
+}
+
+// Entidade ExerciseRecord (Registro Simples de Peso por Exercício)
+model ExerciseRecord {
+  id String @id @default(cuid())
+
+  // Relacionamento com User
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Relacionamento com Exercise
+  exerciseId String
+  exercise   Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  // Dados do registro
+  weight Float // peso utilizado em kg
+  notes  String? // observações opcionais
+
+  // Campos de auditoria
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("exercise_records")
 }

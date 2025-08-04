@@ -146,12 +146,13 @@ src/
 - [x] Estatísticas sociais (seguidores, seguindo, curtidas)
 - [x] Listagem de seguidores e seguidos
 
-### Sprint 5 - Métricas e Analytics (Semana 7)
+### Sprint 5 - Métricas e Analytics (Semana 7) ✅ CONCLUÍDA
 
-- [ ] Registro de pesos por exercício
-- [ ] Histórico de progressão
-- [ ] Estatísticas do usuário
-- [ ] Gráficos de evolução
+- [x] Registro simples de peso por exercício
+- [x] Histórico de progressão de peso
+- [x] Consulta de registros por exercício
+- [x] Resumo de progresso do usuário
+- [x] CRUD completo de registros de peso
 
 ### Sprint 6 - Polimento (Semana 8)
 
@@ -169,17 +170,18 @@ src/
 5. ~~**Implementar CRUD de Perfis**: Get, Update, Search~~ ✅ **CONCLUÍDO**
 6. ~~**Implementar Sistema de Treinos**: CRUD completo de planos, dias e exercícios~~ ✅ **CONCLUÍDO**
 7. ~~**Implementar Funcionalidades Sociais**: Curtidas, favoritos, seguidores e feed público~~ ✅ **CONCLUÍDO**
-8. **Documentar API**: Swagger/OpenAPI
-9. **Escrever Testes**: Cobertura mínima de 80%
+8. ~~**Implementar Sistema de Métricas**: Tracking simples de peso por exercício~~ ✅ **CONCLUÍDO**
+9. **Documentar API**: Swagger/OpenAPI
+10. **Escrever Testes**: Cobertura mínima de 80%
 
-### 🎯 **SPRINT 1, 2, 3 & 4 CONCLUÍDAS COM SUCESSO!**
+### 🎯 **SPRINT 1, 2, 3, 4 & 5 CONCLUÍDAS COM SUCESSO!**
 
 ✅ **O que está funcionando:**
 
 - Banco PostgreSQL com Docker
 - Autenticação completa (registro/login)
 - JWT tokens e guards
-- Entidades User, Profile, WorkoutPlan, WorkoutDay, Exercise + Like, Favorite, Follow
+- Entidades User, Profile, WorkoutPlan, WorkoutDay, Exercise + Like, Favorite, Follow + ExerciseRecord
 - Clean Architecture implementada
 - Validações com class-validator + decorator customizado @BodyDto
 - **CRUD completo de perfis** (GET, PUT /profile/me)
@@ -197,6 +199,11 @@ src/
   - **Feed público de treinos** (GET /social/feed)
   - **Estatísticas sociais** (GET /social/stats)
   - **Listagem de seguidores/seguindo** (GET /social/users/:id/followers|following)
+- **Sistema de métricas simples:**
+  - **Registro de peso por exercício** (POST /metrics/records)
+  - **Histórico de progressão** (GET /metrics/exercises/:id/progress)
+  - **Resumo de progresso** (GET /metrics/summary)
+  - **CRUD de registros** (PUT/DELETE /metrics/records/:id)
 
 ### 🚀 **Como testar:**
 
@@ -237,6 +244,13 @@ GET /social/users/:id/following
 GET /social/feed
 GET /social/stats/:id
 GET /social/stats
+
+# Endpoints de métricas
+POST /metrics/records
+PUT /metrics/records/:id
+DELETE /metrics/records/:id
+GET /metrics/exercises/:exerciseId/progress
+GET /metrics/summary
 ```
 
 ## 🤝 Contribuindo

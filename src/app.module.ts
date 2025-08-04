@@ -11,6 +11,7 @@ import { appConfig, jwtConfig } from "./configuration";
 import {
   AuthController,
   ExerciseController,
+  MetricsController,
   ProfileController,
   SocialController,
   WorkoutDayController,
@@ -21,6 +22,7 @@ import { JwtAuthGuard } from "./frameworks/auth/jwt-auth.guard";
 // Frameworks
 import { PrismaService } from "./frameworks/database/prisma.service";
 import { ExerciseRepository } from "./frameworks/database/repositories/exercise.repository";
+import { ExerciseRecordRepository } from "./frameworks/database/repositories/exercise-record.repository";
 import { FavoriteRepository } from "./frameworks/database/repositories/favorite.repository";
 import { FollowRepository } from "./frameworks/database/repositories/follow.repository";
 import { LikeRepository } from "./frameworks/database/repositories/like.repository";
@@ -35,6 +37,11 @@ import { LoginUseCase } from "./use-cases/auth/login.use-case";
 import { RegisterUseCase } from "./use-cases/auth/register.use-case";
 import { CreateExerciseUseCase } from "./use-cases/exercise/create-exercise.use-case";
 import { GetExerciseByDayUseCase } from "./use-cases/exercise/get-exercise-by-day.use-case";
+import { CreateExerciseRecordUseCase } from "./use-cases/metrics/create-exercise-record.use-case";
+import { DeleteExerciseRecordUseCase } from "./use-cases/metrics/delete-exercise-record.use-case";
+import { GetExerciseProgressUseCase } from "./use-cases/metrics/get-exercise-progress.use-case";
+import { GetUserProgressSummaryUseCase } from "./use-cases/metrics/get-user-progress-summary.use-case";
+import { UpdateExerciseRecordUseCase } from "./use-cases/metrics/update-exercise-record.use-case";
 import { GetProfileUseCase } from "./use-cases/profile/get-profile.use-case";
 import { SearchProfilesUseCase } from "./use-cases/profile/search-profiles.use-case";
 import { UpdateProfileUseCase } from "./use-cases/profile/update-profile.use-case";
@@ -69,6 +76,7 @@ import { GetWorkoutPlanUseCase } from "./use-cases/workout-plan/get-workout-plan
   controllers: [
     AuthController,
     ExerciseController,
+    MetricsController,
     ProfileController,
     SocialController,
     WorkoutDayController,
@@ -96,6 +104,13 @@ import { GetWorkoutPlanUseCase } from "./use-cases/workout-plan/get-workout-plan
     GetWorkoutDayUseCase,
     GetExerciseByDayUseCase,
 
+    // Metrics Use Cases
+    CreateExerciseRecordUseCase,
+    UpdateExerciseRecordUseCase,
+    GetExerciseProgressUseCase,
+    GetUserProgressSummaryUseCase,
+    DeleteExerciseRecordUseCase,
+
     // Social Use Cases
     LikeWorkoutPlanUseCase,
     UnlikeWorkoutPlanUseCase,
@@ -115,6 +130,7 @@ import { GetWorkoutPlanUseCase } from "./use-cases/workout-plan/get-workout-plan
     WorkoutPlanRepository,
     WorkoutDayRepository,
     ExerciseRepository,
+    ExerciseRecordRepository,
     LikeRepository,
     FavoriteRepository,
     FollowRepository,
