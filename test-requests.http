@@ -1,0 +1,51 @@
+### Arquivo para testar as rotas da API
+### Use com Thunder Client, REST Client ou Postman
+
+### 1. Registrar usuário
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "email": "usuario@exemplo.com",
+  "password": "123456",
+  "username": "meuusername",
+  "name": "Meu Nome Completo"
+}
+
+### 2. Login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "usuario@exemplo.com",
+  "password": "123456"
+}
+
+### 3. Registrar segundo usuário para testes
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "email": "usuario2@exemplo.com",
+  "password": "123456",
+  "username": "usuario2",
+  "name": "Segundo Usuário"
+}
+
+### 4. Exemplo de rota protegida (precisa do token)
+GET http://localhost:3000/profile/me
+Authorization: Bearer SEU_TOKEN_AQUI
+
+### ========================================
+### COMANDOS CURL ALTERNATIVOS
+### ========================================
+
+### Registrar usuário via curl:
+# curl -X POST http://localhost:3000/auth/register \
+#   -H "Content-Type: application/json" \
+#   -d '{"email":"test@test.com","password":"123456","username":"testuser","name":"Test User"}'
+
+### Login via curl:
+# curl -X POST http://localhost:3000/auth/login \
+#   -H "Content-Type: application/json" \
+#   -d '{"email":"test@test.com","password":"123456"}'

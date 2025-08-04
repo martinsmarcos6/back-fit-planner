@@ -15,10 +15,10 @@ Este projeto segue os princípios da **Clean Architecture**, organizando o códi
 
 ### 🔐 Autenticação
 - [x] Estrutura base
-- [ ] Criar conta de usuário
-- [ ] Login na conta
-- [ ] Geração de tokens JWT
-- [ ] Validação de tokens
+- [x] Criar conta de usuário
+- [x] Login na conta
+- [x] Geração de tokens JWT
+- [x] Validação de tokens
 - [ ] Refresh token
 - [ ] Recuperação de senha (esqueci senha)
 
@@ -43,8 +43,8 @@ Este projeto segue os princípios da **Clean Architecture**, organizando o códi
 
 - **Framework**: NestJS
 - **Linguagem**: TypeScript
-- **Banco de Dados**: PostgreSQL (planejado)
-- **ORM**: Prisma (planejado)  
+- **Banco de Dados**: PostgreSQL ✅
+- **ORM**: Prisma ✅  
 - **Autenticação**: JWT
 - **Validação**: class-validator
 - **Documentação**: Swagger
@@ -103,11 +103,11 @@ src/
 
 ## 🗓️ Roadmap de Desenvolvimento
 
-### Sprint 1 - Fundação (Semana 1-2)
-- [ ] Configurar banco de dados PostgreSQL
-- [ ] Implementar entidades User e Profile
-- [ ] Sistema básico de autenticação (registro/login)
-- [ ] Middleware de validação JWT
+### Sprint 1 - Fundação (Semana 1-2) ✅ CONCLUÍDA
+- [x] Configurar banco de dados PostgreSQL
+- [x] Implementar entidades User e Profile
+- [x] Sistema básico de autenticação (registro/login)
+- [x] Middleware de validação JWT
 
 ### Sprint 2 - Perfil de Usuário (Semana 3)
 - [ ] CRUD completo de perfis
@@ -140,12 +140,38 @@ src/
 
 ## 📋 Próximos Passos
 
-1. **Configurar Banco de Dados**: Adicionar PostgreSQL e Prisma
-2. **Implementar Autenticação**: JWT, bcrypt, guards
-3. **Criar Entidades**: User, Profile, Workout, Exercise
-4. **Desenvolver Use Cases**: Seguindo princípios da Clean Architecture
+1. ~~**Configurar Banco de Dados**: Adicionar PostgreSQL e Prisma~~ ✅ **CONCLUÍDO**
+2. ~~**Implementar Autenticação**: JWT, bcrypt, guards~~ ✅ **CONCLUÍDO**  
+3. ~~**Criar Entidades**: User, Profile~~, Workout, Exercise ✅ **User/Profile CONCLUÍDOS**
+4. ~~**Desenvolver Use Cases**: Seguindo princípios da Clean Architecture~~ ✅ **CONCLUÍDO**
 5. **Documentar API**: Swagger/OpenAPI
 6. **Escrever Testes**: Cobertura mínima de 80%
+
+### 🎯 **SPRINT 1 CONCLUÍDA COM SUCESSO!**
+
+✅ **O que está funcionando:**
+- Banco PostgreSQL com Docker
+- Autenticação completa (registro/login)
+- JWT tokens e guards
+- Entidades User e Profile
+- Clean Architecture implementada
+- Validações com class-validator
+
+### 🚀 **Como testar:**
+```bash
+# Iniciar banco
+pnpm docker:up
+
+# Rodar migrations  
+pnpm db:migrate
+
+# Iniciar servidor
+pnpm start:dev
+
+# Testar endpoints
+POST /auth/register
+POST /auth/login
+```
 
 ## 🤝 Contribuindo
 
