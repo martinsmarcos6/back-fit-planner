@@ -20,6 +20,12 @@ model User {
   profile      Profile?
   workoutPlans WorkoutPlan[]
 
+  // Relacionamentos sociais
+  likes     Like[]
+  favorites Favorite[]
+  following Follow[]   @relation("UserFollowing")
+  followers Follow[]   @relation("UserFollowers")
+
   // Campos de auditoria
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -59,6 +65,10 @@ model WorkoutPlan {
 
   // Relacionamento com WorkoutDay
   workoutDays WorkoutDay[]
+
+  // Relacionamentos sociais
+  likes     Like[]
+  favorites Favorite[]
 
   // Campos de auditoria
   createdAt DateTime @default(now())
@@ -109,4 +119,64 @@ model Exercise {
   updatedAt DateTime @updatedAt
 
   @@map("exercises")
+}
+
+// Entidade Like (Curtidas)
+model Like {
+  id String @id @default(cuid())
+
+  // Relacionamento com User
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Relacionamento com WorkoutPlan
+  workoutPlanId String
+  workoutPlan   WorkoutPlan @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
+
+  // Campos de auditoria
+  createdAt DateTime @default(now())
+
+  // Um usuário pode curtir um plano apenas uma vez
+  @@unique([userId, workoutPlanId])
+  @@map("likes")
+}
+
+// Entidade Favorite (Favoritos)
+model Favorite {
+  id String @id @default(cuid())
+
+  // Relacionamento com User
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Relacionamento com WorkoutPlan
+  workoutPlanId String
+  workoutPlan   WorkoutPlan @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
+
+  // Campos de auditoria
+  createdAt DateTime @default(now())
+
+  // Um usuário pode favoritar um plano apenas uma vez
+  @@unique([userId, workoutPlanId])
+  @@map("favorites")
+}
+
+// Entidade Follow (Seguidores)
+model Follow {
+  id String @id @default(cuid())
+
+  // Usuário que está seguindo
+  followerId String
+  follower   User   @relation("UserFollowing", fields: [followerId], references: [id], onDelete: Cascade)
+
+  // Usuário que está sendo seguido
+  followingId String
+  following   User   @relation("UserFollowers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  // Campos de auditoria
+  createdAt DateTime @default(now())
+
+  // Um usuário pode seguir outro apenas uma vez
+  @@unique([followerId, followingId])
+  @@map("follows")
 }

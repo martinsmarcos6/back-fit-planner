@@ -1,12 +1,12 @@
 import {
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
-  IsNumber,
-  Min,
-  Max,
   Length,
+  Max,
   MaxLength,
+  Min,
 } from "class-validator";
 
 // DTO para criar exercício

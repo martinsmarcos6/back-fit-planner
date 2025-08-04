@@ -1,10 +1,10 @@
 import {
+  BadRequestException,
   createParamDecorator,
   ExecutionContext,
-  BadRequestException,
 } from "@nestjs/common";
+import { ClassConstructor, plainToClass } from "class-transformer";
 import { validate } from "class-validator";
-import { plainToClass, ClassConstructor } from "class-transformer";
 
 export const BodyDto = createParamDecorator(
   async (dtoClass: ClassConstructor<object>, ctx: ExecutionContext) => {

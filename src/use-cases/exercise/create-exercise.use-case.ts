@@ -1,6 +1,6 @@
-import { Injectable, BadRequestException } from "@nestjs/common";
-import { Exercise } from "../../core/entities";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { CreateExerciseDto } from "../../core/dtos";
+import { Exercise } from "../../core/entities";
 import { ExerciseRepository } from "../../frameworks/database/repositories/exercise.repository";
 import { WorkoutDayRepository } from "../../frameworks/database/repositories/workout-day.repository";
 import { WorkoutPlanRepository } from "../../frameworks/database/repositories/workout-plan.repository";

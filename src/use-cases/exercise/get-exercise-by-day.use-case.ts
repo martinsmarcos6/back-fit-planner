@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { ExerciseRepository } from "../../frameworks/database/repositories/exercise.repository";
 import { Exercise } from "../../core/entities";
+import { ExerciseRepository } from "../../frameworks/database/repositories/exercise.repository";
 
 @Injectable()
 export class GetExerciseByDayUseCase {

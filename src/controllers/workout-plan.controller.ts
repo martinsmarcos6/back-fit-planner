@@ -1,14 +1,14 @@
-import { Controller, Get, Post, Param } from "@nestjs/common";
+import { Controller, Get, Param, Post } from "@nestjs/common";
+import { GetExerciseByDayUseCase } from "src/use-cases/exercise/get-exercise-by-day.use-case";
 import { CreateWorkoutPlanDto, WorkoutPlanResponseDto } from "../core/dtos";
+import { BodyDto } from "../frameworks/auth/decorators/body-dto.decorator";
 import {
   CurrentUser,
   type CurrentUserPayload,
 } from "../frameworks/auth/decorators/current-user.decorator";
-import { BodyDto } from "../frameworks/auth/decorators/body-dto.decorator";
+import { GetWorkoutDayUseCase } from "../use-cases/workout-day/get-workout-day.use-case";
 import { CreateWorkoutPlanUseCase } from "../use-cases/workout-plan/create-workout-plan.use-case";
 import { GetWorkoutPlanUseCase } from "../use-cases/workout-plan/get-workout-plan.use-case";
-import { GetWorkoutDayUseCase } from "../use-cases/workout-day/get-workout-day.use-case";
-import { GetExerciseByDayUseCase } from "src/use-cases/exercise/get-exercise-by-day.use-case";
 
 @Controller("workout-plans")
 export class WorkoutPlanController {

@@ -165,4 +165,65 @@ export class WorkoutPlanRepository {
     });
     return count > 0;
   }
+
+  async findPublicWorkoutPlans(
+    page: number = 1,
+    limit: number = 10,
+  ): Promise<{
+    workoutPlans: Array<{
+      id: string;
+      name: string;
+      description: string | null;
+      isPublic: boolean;
+      userId: string;
+      author: {
+        id: string;
+        username: string;
+        name: string;
+        avatar: string | null;
+      };
+      createdAt: Date;
+      updatedAt: Date;
+    }>;
+    total: number;
+  }> {
+    const skip = (page - 1) * limit;
+
+    const [plans, total] = await Promise.all([
+      this.prisma.workoutPlan.findMany({
+        where: { isPublic: true },
+        include: {
+          user: {
+            include: {
+              profile: true,
+            },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      this.prisma.workoutPlan.count({
+        where: { isPublic: true },
+      }),
+    ]);
+
+    const workoutPlans = plans.map((plan) => ({
+      id: plan.id,
+      name: plan.name,
+      description: plan.description,
+      isPublic: plan.isPublic,
+      userId: plan.userId,
+      author: {
+        id: plan.user.id,
+        username: plan.user.profile?.username || "",
+        name: plan.user.profile?.name || "",
+        avatar: plan.user.profile?.avatar || null,
+      },
+      createdAt: plan.createdAt,
+      updatedAt: plan.updatedAt,
+    }));
+
+    return { workoutPlans, total };
+  }
 }

@@ -1,8 +1,8 @@
 import {
+  IsBoolean,
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsBoolean,
   Length,
   MaxLength,
 } from "class-validator";

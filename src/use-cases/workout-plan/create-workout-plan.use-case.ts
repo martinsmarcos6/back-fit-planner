@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { WorkoutPlan } from "../../core/entities";
 import { CreateWorkoutPlanDto } from "../../core/dtos";
+import { WorkoutPlan } from "../../core/entities";
 import { WorkoutPlanRepository } from "../../frameworks/database/repositories/workout-plan.repository";
 
 @Injectable()

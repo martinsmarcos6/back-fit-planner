@@ -1,10 +1,10 @@
-import { Controller, Post, Param } from "@nestjs/common";
+import { Controller, Param, Post } from "@nestjs/common";
 import { CreateExerciseDto, ExerciseResponseDto } from "../core/dtos";
+import { BodyDto } from "../frameworks/auth/decorators/body-dto.decorator";
 import {
   CurrentUser,
   type CurrentUserPayload,
 } from "../frameworks/auth/decorators/current-user.decorator";
-import { BodyDto } from "../frameworks/auth/decorators/body-dto.decorator";
 import { CreateExerciseUseCase } from "../use-cases/exercise/create-exercise.use-case";
 
 @Controller("workout-days/:dayId/exercises")

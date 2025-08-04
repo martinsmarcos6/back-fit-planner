@@ -33,13 +33,18 @@ Este projeto segue os princípios da **Clean Architecture**, organizando o códi
 
 ### 🏋️ Treinos
 
-- [ ] Listar treinos do usuário
-- [ ] Obter treinos por ID do usuário
+- [x] Criar plano de treino
+- [x] Obter plano de treino por ID
+- [x] Criar dias de treino (segunda, terça, etc.)
+- [x] Obter dias de treino
+- [x] Criar exercícios dentro dos dias
+- [x] Obter exercícios por dia
+- [x] Registrar peso utilizado por exercício
+- [x] Sistema de ordem dos exercícios
+- [ ] Listar todos os treinos do usuário
 - [ ] Listar todos os treinos (feed público)
-- [ ] Criar novo treino
 - [ ] Salvar treino como favorito
 - [ ] Curtir treinos de outros usuários
-- [ ] Registrar peso utilizado por exercício
 - [ ] Compartilhamento de treinos
 
 ## 🛠️ Stack Tecnológica
@@ -123,19 +128,23 @@ src/
 - [x] Busca por usuários
 - [x] Validações de dados do perfil
 
-### Sprint 3 - Treinos Básicos (Semana 4-5)
+### Sprint 3 - Treinos Básicos (Semana 4-5) ✅ CONCLUÍDA
 
-- [ ] Entidade Workout (Treino)
-- [ ] CRUD de treinos
-- [ ] Associação treino-usuário
-- [ ] Sistema de exercícios
+- [x] Entidades WorkoutPlan, WorkoutDay e Exercise
+- [x] CRUD completo de planos de treino
+- [x] CRUD de dias de treino
+- [x] CRUD de exercícios
+- [x] Associação treino-usuário
+- [x] Sistema completo de exercícios com peso e ordem
 
-### Sprint 4 - Funcionalidades Sociais (Semana 6)
+### Sprint 4 - Funcionalidades Sociais (Semana 6) ✅ CONCLUÍDA
 
-- [ ] Sistema de curtidas
-- [ ] Salvar treinos favoritos
-- [ ] Feed público de treinos
-- [ ] Sistema de seguir usuários
+- [x] Sistema de curtidas em planos de treino
+- [x] Sistema de favoritar treinos
+- [x] Feed público de treinos para descoberta
+- [x] Sistema de seguir outros usuários
+- [x] Estatísticas sociais (seguidores, seguindo, curtidas)
+- [x] Listagem de seguidores e seguidos
 
 ### Sprint 5 - Métricas e Analytics (Semana 7)
 
@@ -155,25 +164,39 @@ src/
 
 1. ~~**Configurar Banco de Dados**: Adicionar PostgreSQL e Prisma~~ ✅ **CONCLUÍDO**
 2. ~~**Implementar Autenticação**: JWT, bcrypt, guards~~ ✅ **CONCLUÍDO**
-3. ~~**Criar Entidades**: User, Profile~~, Workout, Exercise ✅ **User/Profile CONCLUÍDOS**
+3. ~~**Criar Entidades**: User, Profile, WorkoutPlan, WorkoutDay, Exercise~~ ✅ **CONCLUÍDO**
 4. ~~**Desenvolver Use Cases**: Seguindo princípios da Clean Architecture~~ ✅ **CONCLUÍDO**
 5. ~~**Implementar CRUD de Perfis**: Get, Update, Search~~ ✅ **CONCLUÍDO**
-6. **Documentar API**: Swagger/OpenAPI
-7. **Escrever Testes**: Cobertura mínima de 80%
+6. ~~**Implementar Sistema de Treinos**: CRUD completo de planos, dias e exercícios~~ ✅ **CONCLUÍDO**
+7. ~~**Implementar Funcionalidades Sociais**: Curtidas, favoritos, seguidores e feed público~~ ✅ **CONCLUÍDO**
+8. **Documentar API**: Swagger/OpenAPI
+9. **Escrever Testes**: Cobertura mínima de 80%
 
-### 🎯 **SPRINT 1 & 2 CONCLUÍDAS COM SUCESSO!**
+### 🎯 **SPRINT 1, 2, 3 & 4 CONCLUÍDAS COM SUCESSO!**
 
 ✅ **O que está funcionando:**
 
 - Banco PostgreSQL com Docker
 - Autenticação completa (registro/login)
 - JWT tokens e guards
-- Entidades User e Profile
+- Entidades User, Profile, WorkoutPlan, WorkoutDay, Exercise + Like, Favorite, Follow
 - Clean Architecture implementada
 - Validações com class-validator + decorator customizado @BodyDto
 - **CRUD completo de perfis** (GET, PUT /profile/me)
 - **Busca de usuários** (GET /profile/search)
 - **Perfil por ID/username** (GET /profile/:identifier)
+- **Sistema completo de treinos:**
+  - **CRUD de planos de treino** (POST, GET /workout-plans)
+  - **CRUD de dias de treino** (POST /workout-plans/:id/days)
+  - **CRUD de exercícios** (POST /workout-days/:id/exercises)
+  - **Sistema de peso e ordem dos exercícios**
+- **Funcionalidades sociais completas:**
+  - **Sistema de curtidas** (POST/DELETE /social/workout-plans/:id/like)
+  - **Sistema de favoritos** (POST/DELETE /social/workout-plans/:id/favorite)
+  - **Sistema de seguir usuários** (POST/DELETE /social/users/:id/follow)
+  - **Feed público de treinos** (GET /social/feed)
+  - **Estatísticas sociais** (GET /social/stats)
+  - **Listagem de seguidores/seguindo** (GET /social/users/:id/followers|following)
 
 ### 🚀 **Como testar:**
 
@@ -194,6 +217,26 @@ GET /profile/me
 PUT /profile/me
 GET /profile/search?q=nome
 GET /profile/:identifier
+
+# Endpoints de treinos
+POST /workout-plans
+GET /workout-plans/:id
+POST /workout-plans/:planId/days
+POST /workout-days/:dayId/exercises
+
+# Endpoints sociais
+POST /social/workout-plans/:id/like
+DELETE /social/workout-plans/:id/like
+POST /social/workout-plans/:id/favorite
+DELETE /social/workout-plans/:id/favorite
+GET /social/favorites
+POST /social/users/:id/follow
+DELETE /social/users/:id/follow
+GET /social/users/:id/followers
+GET /social/users/:id/following
+GET /social/feed
+GET /social/stats/:id
+GET /social/stats
 ```
 
 ## 🤝 Contribuindo

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { WorkoutDay, type DayOfWeek } from "../../../core/entities";
+import { type DayOfWeek, WorkoutDay } from "../../../core/entities";
 import { PrismaService } from "../prisma.service";
 
 @Injectable()

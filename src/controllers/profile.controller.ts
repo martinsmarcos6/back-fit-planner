@@ -7,11 +7,11 @@ import {
   Query,
 } from "@nestjs/common";
 import { ProfileResponseDto, UpdateProfileDto } from "../core/dtos";
+import { BodyDto } from "../frameworks/auth/decorators/body-dto.decorator";
 import {
   CurrentUser,
   type CurrentUserPayload,
 } from "../frameworks/auth/decorators/current-user.decorator";
-import { BodyDto } from "../frameworks/auth/decorators/body-dto.decorator";
 import { ProfileService } from "../services/profile.service";
 
 @Controller("profile")

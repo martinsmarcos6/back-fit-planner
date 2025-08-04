@@ -1,6 +1,6 @@
-import { Injectable, BadRequestException } from "@nestjs/common";
-import { WorkoutDay, type DayOfWeek } from "../../core/entities";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { CreateWorkoutDayDto } from "../../core/dtos";
+import { type DayOfWeek, WorkoutDay } from "../../core/entities";
 import { WorkoutDayRepository } from "../../frameworks/database/repositories/workout-day.repository";
 import { WorkoutPlanRepository } from "../../frameworks/database/repositories/workout-plan.repository";
 
