@@ -11,7 +11,7 @@ describe("Back Fit Planner API (e2e)", () => {
   let authToken: string;
   let workoutPlanId: string;
   let workoutDayId: string;
-  let exerciseId: string;
+  let exerciseId: string | undefined;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -23,7 +23,6 @@ describe("Back Fit Planner API (e2e)", () => {
 
     // Clean up database before tests
     const prisma = app.get(PrismaService);
-    await prisma.exerciseRecord.deleteMany();
     await prisma.exercise.deleteMany();
     await prisma.workoutDay.deleteMany();
     await prisma.workoutPlan.deleteMany();
@@ -172,81 +171,39 @@ describe("Back Fit Planner API (e2e)", () => {
         });
     });
 
-    it("should create an exercise", () => {
-      return request(app.getHttpServer())
+    it("should create an exercise from catalog", async () => {
+      const catalogRes = await request(app.getHttpServer())
+        .get(`/exercise-catalog`)
+        .set("Authorization", `Bearer ${authToken}`)
+        .expect(200);
+
+      const items: Array<{ id: string; name: string }> = catalogRes.body;
+      const supino = items.find((i) => i.name === "Supino Reto") ?? items[0];
+      expect(supino).toBeTruthy();
+
+      const createRes = await request(app.getHttpServer())
         .post(`/workout-days/${workoutDayId}/exercises`)
         .set("Authorization", `Bearer ${authToken}`)
         .send({
-          name: "Supino Reto",
+          catalogId: supino.id,
           sets: 3,
           repsRange: "8-12",
-          weight: 60,
           restSeconds: 120,
           order: 1,
           notes: "Focus on form",
         })
-        .expect(201)
-        .expect((res) => {
-          expect(res.body).toHaveProperty("id");
-          expect(res.body.name).toBe("Supino Reto");
-          expect(res.body.sets).toBe(3);
-          expect(res.body.weight).toBe(60);
-          exerciseId = res.body.id;
-        });
+        .expect(201);
+
+      expect(createRes.body).toHaveProperty("id");
+      expect(createRes.body.name).toBe(supino.name);
+      expect(createRes.body.sets).toBe(3);
+      exerciseId = createRes.body.id;
     });
   });
 
-  describe("📊 Metrics System", () => {
-    it("should create an exercise record", () => {
-      return request(app.getHttpServer())
-        .post("/metrics/records")
-        .set("Authorization", `Bearer ${authToken}`)
-        .send({
-          exerciseId: exerciseId,
-          weight: 65,
-          notes: "Increased weight today!",
-        })
-        .expect(201)
-        .expect((res) => {
-          expect(res.body).toHaveProperty("id");
-          expect(res.body.exerciseId).toBe(exerciseId);
-          expect(res.body.weight).toBe(65);
-          expect(res.body.notes).toBe("Increased weight today!");
-        });
-    });
-
-    it("should get exercise progress", () => {
-      return request(app.getHttpServer())
-        .get(`/metrics/exercises/${exerciseId}/progress`)
-        .set("Authorization", `Bearer ${authToken}`)
-        .expect(200)
-        .expect((res) => {
-          expect(res.body).toHaveProperty("exerciseId");
-          expect(res.body).toHaveProperty("exerciseName");
-          expect(res.body).toHaveProperty("progress");
-          expect(res.body).toHaveProperty("currentWeight");
-          expect(res.body).toHaveProperty("maxWeight");
-          expect(res.body).toHaveProperty("totalRecords");
-          expect(Array.isArray(res.body.progress)).toBe(true);
-          expect(res.body.totalRecords).toBeGreaterThan(0);
-        });
-    });
-
-    it("should get user progress summary", () => {
-      return request(app.getHttpServer())
-        .get("/metrics/summary")
-        .set("Authorization", `Bearer ${authToken}`)
-        .expect(200)
-        .expect((res) => {
-          expect(Array.isArray(res.body)).toBe(true);
-          if (res.body.length > 0) {
-            expect(res.body[0]).toHaveProperty("exerciseId");
-            expect(res.body[0]).toHaveProperty("exerciseName");
-            expect(res.body[0]).toHaveProperty("latestWeight");
-            expect(res.body[0]).toHaveProperty("recordCount");
-          }
-        });
-    });
+  // Metrics System removed in this pivot
+  it("should have created an exercise id for further tests", () => {
+    expect(typeof exerciseId === "string" && exerciseId.length > 0).toBe(true);
   });
 
   describe("👥 Social Features", () => {
