@@ -1,6 +1,6 @@
 export * from "./auth.controller";
 export * from "./exercise.controller";
-export * from "./metrics.controller";
+export * from "./exercise-catalog.controller";
 export * from "./profile.controller";
 export * from "./social.controller";
 export * from "./workout-day.controller";

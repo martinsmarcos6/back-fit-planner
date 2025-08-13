@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 import { CreateExerciseDto } from "../../core/dtos";
 import { Exercise } from "../../core/entities";
 import { ExerciseRepository } from "../../frameworks/database/repositories/exercise.repository";
+import { ExerciseCatalogRepository } from "../../frameworks/database/repositories/exercise-catalog.repository";
 import { WorkoutDayRepository } from "../../frameworks/database/repositories/workout-day.repository";
 import { WorkoutPlanRepository } from "../../frameworks/database/repositories/workout-plan.repository";
 
@@ -11,6 +12,7 @@ export class CreateExerciseUseCase {
     private readonly exerciseRepository: ExerciseRepository,
     private readonly workoutDayRepository: WorkoutDayRepository,
     private readonly workoutPlanRepository: WorkoutPlanRepository,
+    private readonly exerciseCatalogRepository: ExerciseCatalogRepository,
   ) {}
 
   async execute(
@@ -35,9 +37,18 @@ export class CreateExerciseUseCase {
       createExerciseDto.order ??
       (await this.exerciseRepository.getNextOrder(workoutDayId));
 
+    // Buscar exercício base no catálogo
+    const catalog = await this.exerciseCatalogRepository.findById(
+      createExerciseDto.catalogId,
+    );
+    if (!catalog) {
+      throw new BadRequestException("Exercício de catálogo não encontrado");
+    }
+
     const exercise = Exercise.create({
       workoutDayId,
-      name: createExerciseDto.name,
+      catalogId: catalog.id,
+      name: catalog.name,
       sets: createExerciseDto.sets,
       repsRange: createExerciseDto.repsRange,
       restSeconds: createExerciseDto.restSeconds,

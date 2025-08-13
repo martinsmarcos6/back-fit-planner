@@ -37,9 +37,9 @@ Este projeto segue os princípios da **Clean Architecture**, organizando o códi
 - [x] Obter plano de treino por ID
 - [x] Criar dias de treino (segunda, terça, etc.)
 - [x] Obter dias de treino
-- [x] Criar exercícios dentro dos dias
+- [x] Listar catálogo de exercícios
+- [x] Adicionar exercícios existentes (catálogo) aos dias
 - [x] Obter exercícios por dia
-- [x] Registrar peso utilizado por exercício
 - [x] Sistema de ordem dos exercícios
 - [ ] Listar todos os treinos do usuário
 - [ ] Listar todos os treinos (feed público)
@@ -173,7 +173,7 @@ src/
 - Banco PostgreSQL com Docker
 - Autenticação completa (registro/login)
 - JWT tokens e guards
-- Entidades User, Profile, WorkoutPlan, WorkoutDay, Exercise + Like, Favorite, Follow + ExerciseRecord
+- Entidades User, Profile, WorkoutPlan, WorkoutDay, Exercise + Like, Favorite, Follow
 - Clean Architecture implementada
 - Validações com class-validator + decorator customizado @BodyDto
 - **CRUD completo de perfis** (GET, PUT /profile/me)
@@ -182,8 +182,8 @@ src/
 - **Sistema completo de treinos:**
   - **CRUD de planos de treino** (POST, GET /workout-plans)
   - **CRUD de dias de treino** (POST /workout-plans/:id/days)
-  - **CRUD de exercícios** (POST /workout-days/:id/exercises)
-  - **Sistema de peso e ordem dos exercícios**
+  - **Adicionar exercícios do catálogo** (POST /workout-days/:dayId/exercises)
+  - **Sistema de ordem dos exercícios**
 - **Funcionalidades sociais completas:**
   - **Sistema de curtidas** (POST/DELETE /social/workout-plans/:id/like)
   - **Sistema de favoritos** (POST/DELETE /social/workout-plans/:id/favorite)
@@ -217,6 +217,8 @@ POST /workout-plans
 GET /workout-plans/:id
 POST /workout-plans/:planId/days
 POST /workout-days/:dayId/exercises
+GET /exercise-catalog
+GET /exercise-catalog?q=nome
 
 # Endpoints sociais
 POST /social/workout-plans/:id/like

@@ -26,8 +26,9 @@ export class ExerciseController {
 
   @Post()
   @ApiOperation({
-    summary: "Criar exercício",
-    description: "Adiciona um novo exercício a um dia de treino específico",
+    summary: "Adicionar exercício existente",
+    description:
+      "Seleciona um exercício do catálogo e adiciona ao dia de treino específico",
   })
   @ApiParam({
     name: "dayId",
@@ -56,6 +57,7 @@ export class ExerciseController {
 
     return {
       id: exercise.id,
+      catalogId: exercise.catalogId,
       name: exercise.name,
       sets: exercise.sets,
       repsRange: exercise.repsRange,

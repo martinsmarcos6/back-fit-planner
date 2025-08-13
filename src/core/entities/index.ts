@@ -1,5 +1,4 @@
 export * from "./exercise.entity";
-export * from "./exercise-record.entity";
 export * from "./favorite.entity";
 export * from "./follow.entity";
 export * from "./like.entity";

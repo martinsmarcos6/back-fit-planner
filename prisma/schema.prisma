@@ -114,11 +114,29 @@ model Exercise {
   workoutDayId String
   workoutDay   WorkoutDay @relation(fields: [workoutDayId], references: [id], onDelete: Cascade)
 
+  // Relacionamento com ExerciseCatalog (catálogo base)
+  catalogId String
+  catalog   ExerciseCatalog @relation(fields: [catalogId], references: [id], onDelete: Restrict)
+
   // Campos de auditoria
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("exercises")
+}
+
+// Catálogo de Exercícios (exercícios base, pré-existentes)
+model ExerciseCatalog {
+  id   String @id @default(cuid())
+  name String
+
+  // Relacionamento com Exercise (instâncias em dias de treino)
+  exercises Exercise[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("exercise_catalog")
 }
 
 // Entidade Like (Curtidas)

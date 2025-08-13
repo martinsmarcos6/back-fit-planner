@@ -1,6 +1,7 @@
 export class Exercise {
   public readonly id: string;
   public readonly workoutDayId: string;
+  public readonly catalogId: string;
   public readonly name: string;
   public readonly sets: number;
   public readonly repsRange: string; // Ex: "8-12", "10", "15-20"
@@ -13,6 +14,7 @@ export class Exercise {
   constructor(props: {
     id?: string;
     workoutDayId: string;
+    catalogId: string;
     name: string;
     sets: number;
     repsRange: string;
@@ -24,6 +26,7 @@ export class Exercise {
   }) {
     this.id = props.id ?? crypto.randomUUID();
     this.workoutDayId = props.workoutDayId;
+    this.catalogId = props.catalogId;
     this.name = props.name;
     this.sets = props.sets;
     this.repsRange = props.repsRange;
@@ -36,6 +39,7 @@ export class Exercise {
 
   static create(props: {
     workoutDayId: string;
+    catalogId: string;
     name: string;
     sets: number;
     repsRange: string;
@@ -50,7 +54,6 @@ export class Exercise {
     name?: string;
     sets?: number;
     repsRange?: string;
-    weight?: number | null;
     restSeconds?: number | null;
     order?: number;
     notes?: string | null;
@@ -58,6 +61,7 @@ export class Exercise {
     return new Exercise({
       id: this.id,
       workoutDayId: this.workoutDayId,
+      catalogId: this.catalogId,
       name: props.name ?? this.name,
       sets: props.sets ?? this.sets,
       repsRange: props.repsRange ?? this.repsRange,

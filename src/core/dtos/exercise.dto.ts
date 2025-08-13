@@ -13,8 +13,7 @@ import {
 export class CreateExerciseDto {
   @IsString()
   @IsNotEmpty()
-  @Length(2, 80, { message: "Nome deve ter entre 2 e 80 caracteres" })
-  name: string;
+  catalogId: string;
 
   @IsNumber()
   @Min(1, { message: "Número de séries deve ser pelo menos 1" })
@@ -82,6 +81,7 @@ export class UpdateExerciseDto {
 // DTO para resposta do exercício
 export class ExerciseResponseDto {
   id: string;
+  catalogId: string;
   name: string;
   sets: number;
   repsRange: string;
