@@ -59,7 +59,6 @@ export class ExerciseController {
       name: exercise.name,
       sets: exercise.sets,
       repsRange: exercise.repsRange,
-      weight: exercise.weight ?? undefined,
       restSeconds: exercise.restSeconds ?? undefined,
       order: exercise.order,
       notes: exercise.notes ?? undefined,

@@ -30,11 +30,6 @@ export class CreateExerciseDto {
 
   @IsOptional()
   @IsNumber()
-  @Min(0, { message: "Peso deve ser positivo" })
-  weight?: number;
-
-  @IsOptional()
-  @IsNumber()
   @Min(0, { message: "Tempo de descanso deve ser positivo" })
   restSeconds?: number;
 
@@ -70,11 +65,6 @@ export class UpdateExerciseDto {
 
   @IsOptional()
   @IsNumber()
-  @Min(0, { message: "Peso deve ser positivo" })
-  weight?: number;
-
-  @IsOptional()
-  @IsNumber()
   @Min(0, { message: "Tempo de descanso deve ser positivo" })
   restSeconds?: number;
 
@@ -95,7 +85,6 @@ export class ExerciseResponseDto {
   name: string;
   sets: number;
   repsRange: string;
-  weight?: number;
   restSeconds?: number;
   order: number;
   notes?: string;

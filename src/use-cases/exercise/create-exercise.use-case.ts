@@ -40,7 +40,6 @@ export class CreateExerciseUseCase {
       name: createExerciseDto.name,
       sets: createExerciseDto.sets,
       repsRange: createExerciseDto.repsRange,
-      weight: createExerciseDto.weight,
       restSeconds: createExerciseDto.restSeconds,
       order,
       notes: createExerciseDto.notes,

@@ -4,7 +4,6 @@ export class Exercise {
   public readonly name: string;
   public readonly sets: number;
   public readonly repsRange: string; // Ex: "8-12", "10", "15-20"
-  public readonly weight: number | null;
   public readonly restSeconds: number | null;
   public readonly order: number;
   public readonly notes: string | null;
@@ -17,7 +16,6 @@ export class Exercise {
     name: string;
     sets: number;
     repsRange: string;
-    weight?: number | null;
     restSeconds?: number | null;
     order: number;
     notes?: string | null;
@@ -29,7 +27,6 @@ export class Exercise {
     this.name = props.name;
     this.sets = props.sets;
     this.repsRange = props.repsRange;
-    this.weight = props.weight ?? null;
     this.restSeconds = props.restSeconds ?? null;
     this.order = props.order;
     this.notes = props.notes ?? null;
@@ -42,7 +39,6 @@ export class Exercise {
     name: string;
     sets: number;
     repsRange: string;
-    weight?: number;
     restSeconds?: number;
     order: number;
     notes?: string;
@@ -65,7 +61,6 @@ export class Exercise {
       name: props.name ?? this.name,
       sets: props.sets ?? this.sets,
       repsRange: props.repsRange ?? this.repsRange,
-      weight: props.weight !== undefined ? props.weight : this.weight,
       restSeconds:
         props.restSeconds !== undefined ? props.restSeconds : this.restSeconds,
       order: props.order ?? this.order,

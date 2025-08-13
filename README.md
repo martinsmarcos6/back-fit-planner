@@ -146,15 +146,7 @@ src/
 - [x] Estatísticas sociais (seguidores, seguindo, curtidas)
 - [x] Listagem de seguidores e seguidos
 
-### Sprint 5 - Métricas e Analytics (Semana 7) ✅ CONCLUÍDA
-
-- [x] Registro simples de peso por exercício
-- [x] Histórico de progressão de peso
-- [x] Consulta de registros por exercício
-- [x] Resumo de progresso do usuário
-- [x] CRUD completo de registros de peso
-
-### Sprint 6 - Polimento (Semana 8) ✅ CONCLUÍDA
+### Sprint 5 - Polimento (Semana 7) ✅ CONCLUÍDA
 
 - [x] Documentação Swagger completa
 - [x] Testes de integração abrangentes
@@ -171,9 +163,8 @@ src/
 5. ~~**Implementar CRUD de Perfis**: Get, Update, Search~~ ✅ **CONCLUÍDO**
 6. ~~**Implementar Sistema de Treinos**: CRUD completo de planos, dias e exercícios~~ ✅ **CONCLUÍDO**
 7. ~~**Implementar Funcionalidades Sociais**: Curtidas, favoritos, seguidores e feed público~~ ✅ **CONCLUÍDO**
-8. ~~**Implementar Sistema de Métricas**: Tracking simples de peso por exercício~~ ✅ **CONCLUÍDO**
-9. ~~**Documentar API**: Swagger/OpenAPI completo~~ ✅ **CONCLUÍDO**
-10. ~~**Escrever Testes**: Testes de integração abrangentes~~ ✅ **CONCLUÍDO**
+8. ~~**Documentar API**: Swagger/OpenAPI completo~~ ✅ **CONCLUÍDO**
+9. ~~**Escrever Testes**: Testes de integração abrangentes~~ ✅ **CONCLUÍDO**
 
 ### 🎯 **TODAS AS 6 SPRINTS CONCLUÍDAS COM SUCESSO!** 🎉
 
@@ -200,11 +191,6 @@ src/
   - **Feed público de treinos** (GET /social/feed)
   - **Estatísticas sociais** (GET /social/stats)
   - **Listagem de seguidores/seguindo** (GET /social/users/:id/followers|following)
-- **Sistema de métricas simples:**
-  - **Registro de peso por exercício** (POST /metrics/records)
-  - **Histórico de progressão** (GET /metrics/exercises/:id/progress)
-  - **Resumo de progresso** (GET /metrics/summary)
-  - **CRUD de registros** (PUT/DELETE /metrics/records/:id)
 
 ### 🚀 **Como testar:**
 
@@ -246,13 +232,6 @@ GET /social/feed
 GET /social/stats/:id
 GET /social/stats
 
-# Endpoints de métricas
-POST /metrics/records
-PUT /metrics/records/:id
-DELETE /metrics/records/:id
-GET /metrics/exercises/:exerciseId/progress
-GET /metrics/summary
-
 # Documentação da API
 GET /api/docs (Swagger UI)
 ```
@@ -275,7 +254,6 @@ O projeto possui uma suíte completa de testes de integração que cobre:
 - **🔐 Fluxo de Autenticação**: Registro e login
 - **👤 Gerenciamento de Perfil**: CRUD e busca
 - **🏋️ Sistema de Treinos**: Planos, dias e exercícios
-- **📊 Sistema de Métricas**: Tracking de peso e progresso
 - **👥 Funcionalidades Sociais**: Curtidas, favoritos e feed
 - **🛡️ Autorização**: Validação de JWT e permissões
 
@@ -300,7 +278,6 @@ O **Back Fit Planner** é uma API REST completa e robusta para planejamento e ac
 - **Gerenciamento de Perfis** com busca e validações
 - **Criação de Planos de Treino** hierárquicos (Plano → Dias → Exercícios)
 - **Funcionalidades Sociais** (curtidas, favoritos, seguidores, feed público)
-- **Sistema de Métricas** simples para tracking de peso por exercício
 - **Documentação Swagger** completa e interativa
 - **Testes de Integração** cobrindo todos os fluxos principais
 
